@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Fira! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #2c3e50 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background animation */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.3);
+            font-size: 20px;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Home page styles */
+        .home-page {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .title {
+            font-family: 'Pacifico', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 182, 193, 0.5);
+            }
+            100% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 182, 193, 0.8);
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b9d, #ff8fab);
+            border: none;
+            color: white;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 107, 157, 0.6);
+            background: linear-gradient(45deg, #ff8fab, #ff6b9d);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Game 1 page styles */
+        .game1-page {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game1-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .game-icon {
+            position: absolute;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            user-select: none;
+            z-index: 20;
+        }
+
+        .game-icon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Game 2 page styles */
+        .game2-page {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game2-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #2c3e50 100%);
+        }
+
+        .game2-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 30;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .angel-icon {
+            position: absolute;
+            font-size: 4rem;
+            cursor: pointer;
+            user-select: none;
+            z-index: 25;
+            transition: transform 0.1s ease;
+            animation: fallDown 3s linear forwards;
+        }
+
+        .angel-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Target score area for game 2 */
+        .target-score-area {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .back-btn, .next-btn, .listen-btn {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover, .next-btn:hover, .listen-btn:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+        }
+
+        .next-btn {
+            background: #27ae60;
+        }
+
+        .next-btn:hover {
+            background: #2ecc71;
+        }
+
+        .listen-btn {
+            background: #1db954;
+        }
+
+        .listen-btn:hover {
+            background: #1ed760;
+        }
+
+        /* Explosion animation */
+        .explosion {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .explosion-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff4757, #ff6348, #ffa502);
+            animation: explode 0.8s ease-out;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Heart grow animation */
+        .heart-grow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            font-size: 5rem;
+            color: #ff6b9d;
+            pointer-events: none;
+            animation: heartGrow 5s ease-in-out;
+        }
+
+        @keyframes heartGrow {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                transform: translate(-50%, -50%) scale(8);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(15);
+                opacity: 0;
+            }
+        }
+
+        /* Background color change animation */
+        .bg-change {
+            animation: bgColorChange 2s ease-in-out;
+        }
+
+        @keyframes bgColorChange {
+            0% {
+                background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #2c3e50 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #ff1744 0%, #e91e63 50%, #9c27b0 100%);
+            }
+            100% {
+                background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #2c3e50 100%);
+            }
+        }
+
+        /* Fade animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .game-icon {
+                font-size: 2.5rem;
+            }
+
+            .angel-icon {
+                font-size: 3rem;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 25% auto;
+            }
+
+            .game2-ui {
+                font-size: 1rem;
+            }
+
+            .target-score-area {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .game-icon {
+                font-size: 2rem;
+            }
+
+            .angel-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div class="home-page" id="homePage">
+            <h1 class="title">Happy Birthday Fira!</h1>
+            <div class="buttons-container">
+                <a href="#" class="btn" id="chatBtn">💬 Ngobrol</a>
+                <button class="btn" id="gameBtn">🎮 Game</button>
+            </div>
+        </div>
+
+        <!-- Game 1 Page -->
+        <div class="game1-page" id="game1Page">
+            <div class="game1-container" id="game1Container">
+                <!-- Game 1 icons will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Game 2 Page -->
+        <div class="game2-page" id="game2Page">
+            <div class="game2-container" id="game2Container">
+                <div class="game2-ui">
+                    <div>Skor: <span id="scoreDisplay">0</span></div>
+                    <div>Level: <span id="levelDisplay">1</span></div>
+                </div>
+                <div class="target-score-area">
+                    Target: 200 Poin
+                </div>
+                <!-- Angels will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-text" id="modalText"></div>
+            <div class="modal-buttons" id="modalButtons">
+                <button class="back-btn" id="backBtn">🏠 Kembali</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let game1Icons = [];
+        let game1Interval;
+        let isGame1Active = false;
+        
+        let game2Score = 0;
+        let game2Level = 1;
+        let game2Interval;
+        let isGame2Active = false;
+        let angelSpawnRate = 3000; // milliseconds
+
+        // DOM elements
+        const homePage = document.getElementById('homePage');
+        const game1Page = document.getElementById('game1Page');
+        const game2Page = document.getElementById('game2Page');
+        const game1Container = document.getElementById('game1Container');
+        const game2Container = document.getElementById('game2Container');
+        const modal = document.getElementById('modal');
+        const modalText = document.getElementById('modalText');
+        const modalButtons = document.getElementById('modalButtons');
+        const chatBtn = document.getElementById('chatBtn');
+        const gameBtn = document.getElementById('gameBtn');
+        const backBtn = document.getElementById('backBtn');
+        const floatingHearts = document.getElementById('floatingHearts');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+
+        // Initialize floating hearts background
+        function createFloatingHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '💖';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 15 + 's';
+                    heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                    floatingHearts.appendChild(heart);
+
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 25000);
+                }, i * 1000);
+            }
+        }
+
+        // Continuously create floating hearts
+        function maintainFloatingHearts() {
+            createFloatingHearts();
+            setInterval(createFloatingHearts, 20000);
+        }
+
+        // Chat button click handler
+        chatBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Replace with actual chat link when available
+            window.open('https://wa.me/', '_blank');
+        });
+
+        // Game button click handler
+        gameBtn.addEventListener('click', function() {
+            showGame1Page();
+        });
+
+        // Back button click handler
+        backBtn.addEventListener('click', function() {
+            showHomePage();
+        });
+
+        // Modal close when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Show Game 1 page
+        function showGame1Page() {
+            homePage.style.animation = 'fadeOut 0.5s ease';
+            setTimeout(() => {
+                homePage.style.display = 'none';
+                game1Page.style.display = 'block';
+                game1Page.style.animation = 'fadeIn 0.5s ease';
+                startGame1();
+            }, 500);
+        }
+
+        // Show Game 2 page
+        function showGame2Page() {
+            closeModal();
+            game1Page.style.animation = 'fadeOut 0.5s ease';
+            setTimeout(() => {
+                game1Page.style.display = 'none';
+                game2Page.style.display = 'block';
+                game2Page.style.animation = 'fadeIn 0.5s ease';
+                startGame2();
+            }, 500);
+        }
+
+        // Show home page
+        function showHomePage() {
+            closeModal();
+            stopGame1();
+            stopGame2();
+            
+            // Hide current page
+            if (game1Page.style.display !== 'none') {
+                game1Page.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    game1Page.style.display = 'none';
+                    showHome();
+                }, 500);
+            } else if (game2Page.style.display !== 'none') {
+                game2Page.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    game2Page.style.display = 'none';
+                    showHome();
+                }, 500);
+            } else {
+                showHome();
+            }
+        }
+
+        function showHome() {
+            homePage.style.display = 'block';
+            homePage.style.animation = 'fadeIn 0.5s ease';
+        }
+
+        // Start Game 1
+        function startGame1() {
+            isGame1Active = true;
+            game1Container.innerHTML = '';
+            game1Icons = [];
+            createGame1Icons();
+            startGame1IconMovement();
+        }
+
+        // Stop Game 1
+        function stopGame1() {
+            isGame1Active = false;
+            if (game1Interval) {
+                clearInterval(game1Interval);
+            }
+            game1Container.innerHTML = '';
+            game1Icons = [];
+        }
+
+        // Create Game 1 icons
+        function createGame1Icons() {
+            const icons = ['❤️', '🍎', '💣'];
+            const iconCount = 15; // Total number of icons
+
+            for (let i = 0; i < iconCount; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'game-icon';
+                icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                
+                // Random initial position
+                icon.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+                icon.style.top = Math.random() * (window.innerHeight - 60) + 'px';
+                
+                // Random movement direction and speed
+                const moveData = {
+                    element: icon,
+                    dx: (Math.random() - 0.5) * 50, // Random horizontal speed (ultra cepat!)
+                    dy: (Math.random() - 0.5) * 50, // Random vertical speed (ultra cepat!)
+                    x: parseFloat(icon.style.left),
+                    y: parseFloat(icon.style.top)
+                };
+
+                game1Icons.push(moveData);
+                game1Container.appendChild(icon);
+
+                // Add click event listener
+                icon.addEventListener('click', function() {
+                    handleGame1IconClick(icon.innerHTML, icon);
+                });
+            }
+        }
+
+        // Start Game 1 icon movement
+        function startGame1IconMovement() {
+            game1Interval = setInterval(() => {
+                if (!isGame1Active) return;
+
+                game1Icons.forEach(iconData => {
+                    // Update position
+                    iconData.x += iconData.dx;
+                    iconData.y += iconData.dy;
+
+                    // Bounce off walls
+                    if (iconData.x <= 0 || iconData.x >= window.innerWidth - 60) {
+                        iconData.dx = -iconData.dx;
+                        iconData.x = Math.max(0, Math.min(window.innerWidth - 60, iconData.x));
+                    }
+                    if (iconData.y <= 0 || iconData.y >= window.innerHeight - 60) {
+                        iconData.dy = -iconData.dy;
+                        iconData.y = Math.max(0, Math.min(window.innerHeight - 60, iconData.y));
+                    }
+
+                    // Apply new position
+                    iconData.element.style.left = iconData.x + 'px';
+                    iconData.element.style.top = iconData.y + 'px';
+                });
+            }, 16); // ~60 FPS
+        }
+
+        // Handle Game 1 icon click
+        function handleGame1IconClick(iconType, iconElement) {
+            // Remove the clicked icon
+            iconElement.remove();
+            
+            // Remove from game1Icons array
+            game1Icons = game1Icons.filter(item => item.element !== iconElement);
+
+            if (iconType === '💣') {
+                // Boom clicked
+                showExplosion();
+                setTimeout(() => {
+                    showModal('Anda Kalah', [
+                        { text: '🏠 Kembali', action: showHomePage }
+                    ]);
+                }, 800);
+            } else if (iconType === '🍎') {
+                // Apple clicked
+                showModal('Maklum belum digigit', [
+                    { text: '🏠 Kembali', action: showHomePage }
+                ]);
+            } else if (iconType === '❤️') {
+                // Love clicked
+                showHeartGrow();
+                setTimeout(() => {
+                    document.body.classList.add('bg-change');
+                    setTimeout(() => {
+                        document.body.classList.remove('bg-change');
+                        showModal('Eyaa', [
+                            { text: '🏠 Kembali', action: showHomePage },
+                            { text: '➡️ Lanjut', action: showGame2Page }
+                        ]);
+                    }, 2000);
+                }, 5000);
+            }
+        }
+
+        // Start Game 2
+        function startGame2() {
+            isGame2Active = true;
+            game2Score = 0;
+            game2Level = 1;
+            angelSpawnRate = 3000;
+            updateGame2UI();
+            spawnAngels();
+        }
+
+        // Stop Game 2
+        function stopGame2() {
+            isGame2Active = false;
+            if (game2Interval) {
+                clearInterval(game2Interval);
+            }
+            // Remove all angels
+            const angels = game2Container.querySelectorAll('.angel-icon');
+            angels.forEach(angel => angel.remove());
+        }
+
+        // Update Game 2 UI
+        function updateGame2UI() {
+            scoreDisplay.textContent = game2Score;
+            levelDisplay.textContent = game2Level;
+        }
+
+        // Spawn angels
+        function spawnAngels() {
+            if (!isGame2Active) return;
+
+            const angelsToSpawn = 1 + ((game2Level - 1) * 5); // Level 1: 1 malaikat, Level 2: 6 malaikat, Level 3: 11 malaikat, dst
+            
+            for (let i = 0; i < angelsToSpawn; i++) {
+                setTimeout(() => {
+                    createAngel();
+                }, i * 200); // Slight delay between multiple angels
+            }
+
+            // Schedule next spawn
+            game2Interval = setTimeout(() => {
+                spawnAngels();
+            }, angelSpawnRate);
+        }
+
+        // Create single angel
+        function createAngel() {
+            if (!isGame2Active) return;
+
+            const angel = document.createElement('div');
+            angel.className = 'angel-icon';
+            angel.innerHTML = '😇';
+            
+            // Random horizontal position
+            angel.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+            angel.style.top = '-100px';
+            
+            // Adjust fall speed based on level (3x faster each level)
+            const baseDuration = 3; // Kecepatan awal
+            const fallDuration = Math.max(0.2, baseDuration / Math.pow(3, game2Level - 1));
+            angel.style.animationDuration = fallDuration + 's';
+            
+            game2Container.appendChild(angel);
+
+            // Add click event listener
+            angel.addEventListener('click', function() {
+                handleAngelClick(angel);
+            });
+
+            // Remove angel after animation
+            setTimeout(() => {
+                if (angel.parentNode) {
+                    angel.parentNode.removeChild(angel);
+                }
+            }, fallDuration * 1000);
+        }
+
+        // Handle angel click
+        function handleAngelClick(angelElement) {
+            // Remove the clicked angel
+            angelElement.remove();
+            
+            // Add score
+            game2Score += 10;
+            
+            // Check level up
+            if (game2Score % 50 === 0) {
+                game2Level++;
+                angelSpawnRate = Math.max(800, angelSpawnRate - 300); // Increase spawn rate
+            }
+            
+            updateGame2UI();
+            
+            // Check win condition
+            if (game2Score >= 200) {
+                stopGame2();
+                showModal('Selamat! Kamu sudah mencapai 200 point.', [
+                    { text: '🎵 Dengarkan', action: openSpotify }
+                ]);
+            }
+        }
+
+        // Open Spotify
+        function openSpotify() {
+            // Replace with actual Spotify link when available
+            window.open('https://open.spotify.com/', '_blank');
+            closeModal();
+        }
+
+        // Show explosion animation
+        function showExplosion() {
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.innerHTML = '<div class="explosion-circle"></div>';
+            document.body.appendChild(explosion);
+
+            setTimeout(() => {
+                document.body.removeChild(explosion);
+            }, 800);
+        }
+
+        // Show heart grow animation
+        function showHeartGrow() {
+            const heartGrow = document.createElement('div');
+            heartGrow.className = 'heart-grow';
+            heartGrow.innerHTML = '❤️';
+            document.body.appendChild(heartGrow);
+
+            setTimeout(() => {
+                document.body.removeChild(heartGrow);
+            }, 5000);
+        }
+
+        // Show modal
+        function showModal(text, buttons) {
+            modalText.textContent = text;
+            modalButtons.innerHTML = '';
+
+            buttons.forEach(button => {
+                const btn = document.createElement('button');
+                btn.textContent = button.text;
+                btn.className = button.text.includes('Kembali') ? 'back-btn' : 
+                                button.text.includes('Lanjut') ? 'next-btn' : 
+                                button.text.includes('Dengarkan') ? 'listen-btn' : 'back-btn';
+                btn.addEventListener('click', button.action);
+                modalButtons.appendChild(btn);
+            });
+
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Initialize the application
+        function init() {
+            maintainFloatingHearts();
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
